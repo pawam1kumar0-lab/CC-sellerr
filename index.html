@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GiftVault – Digital Cards, UPI Payment</title>
+<meta name="description" content="Amazon, Google Play, Steam, Netflix aur aur bhi digital cards. Card chuno, UPI se pay karo.">
+<meta property="og:title" content="GiftVault – Digital Cards">
+<meta property="og:description" content="Card chuno, UPI se pay karo, code pao.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0d;--fg:#f4f1ee;--card:#14141a;--line:#2a2a33;--mute:#9a9aa6;--red:#ff3b57;--on-red:#fff;--btn-bg:#f4f1ee;--btn-fg:#0a0a0d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#faf7f5;--fg:#16161a;--card:#fff;--line:#e6e1dc;--mute:#6b6b75;--red:#e11d48;--btn-bg:#16161a;--btn-fg:#fff}
+
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-family:'Space Mono',monospace;font-weight:700;font-size:22px;color:var(--red);letter-spacing:-.5px}
+.box{border:1.5px solid var(--line);background:var(--card)}
+h1{font-size:clamp(34px,9vw,56px);line-height:1.05;margin:28px 0 12px;letter-spacing:-1.5px}
+.sub{color:var(--mute);max-width:46ch;margin:0 0 22px}
+.btn{display:inline-block;background:var(--btn-bg);color:var(--btn-fg);border:1.5px solid var(--line);padding:13px 20px;font:700 15px 'Space Grotesk',sans-serif;text-decoration:none;cursor:pointer}
+.btn.red{background:var(--red);color:var(--on-red);border-color:var(--red)}
+.btn:focus-visible,.tab:focus-visible,summary:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.perks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:30px 0}
+.perks .box{padding:14px}
+.perks b{display:block;font-size:17px}
+.perks span{color:var(--mute);font-size:14px}
+h2{font-size:26px;margin:40px 0 14px;letter-spacing:-.5px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+.tab{font:700 13px 'Space Mono',monospace;padding:9px 14px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;white-space:nowrap}
+.tab[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg)}
+.grid{display:grid;gap:14px}
+.item{padding:16px}
+.item .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.item h3{margin:0;font-size:20px}
+.tag{font:700 12px 'Space Mono',monospace;color:var(--red)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{font:700 14px 'Space Mono',monospace;padding:8px 12px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--red);color:var(--on-red);border-color:var(--red)}
+.item .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price{font:700 20px 'Space Mono',monospace}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.steps li{padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+.steps i{font:700 18px 'Space Mono',monospace;color:var(--red);font-style:normal}
+details{border:1.5px solid var(--line);background:var(--card);margin-bottom:10px}
+summary{padding:14px 16px;font-weight:700;cursor:pointer}
+details p{margin:0;padding:0 16px 14px;color:var(--mute)}
+.cta{padding:24px;margin:40px 0;background:var(--red);color:var(--on-red);border-color:var(--red)}
+.cta h2{margin:0 0 8px}
+.cta .btn{background:#fff;color:#111;border-color:#fff}
+footer{color:var(--mute);font-size:13px;padding:10px 0 40px}
+.theme{background:var(--card);color:var(--fg);border:1.5px solid var(--line);width:40px;height:40px;cursor:pointer;font-size:16px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.ov.on{display:flex}
+.sheet{background:var(--bg);color:var(--fg);border:1.5px solid var(--line);width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.sheet h3{margin:0 0 4px;font-size:20px}
+.sheet .amt{font:700 28px 'Space Mono',monospace;color:var(--red);margin:0 0 14px}
+.qr{background:#fff;padding:10px;width:max-content;margin:12px auto}
+.upi{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px 12px;margin:10px 0;font:700 14px 'Space Mono',monospace;word-break:break-all}
+.sheet input{width:100%;padding:12px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);font:400 15px 'Space Mono',monospace;margin:6px 0 12px}
+.sheet label{font-size:14px;color:var(--mute)}
+.sheet .btn{width:100%;text-align:center;margin-bottom:8px}
+.x{float:right;background:var(--card);color:var(--fg);border:1.5px solid var(--line);width:36px;height:36px;cursor:pointer;font-size:18px}
+.err{color:var(--red);font-size:14px;min-height:20px;margin:0 0 6px}
+.note{font-size:13px;color:var(--mute);margin:8px 0 0}
+.sheet .amt{text-align:center;font-size:34px}
+.oid{display:flex;justify-content:space-between;padding:12px 14px;font:700 13px 'Space Mono',monospace;margin-bottom:4px}
+.oid small{display:block;font-weight:400;color:var(--mute);font-size:11px}
+.sep{text-align:center;color:var(--mute);font:400 12px 'Space Mono',monospace;margin:4px 0 10px}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.sheet a.app{width:auto;margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);text-decoration:none;font:700 12px 'Space Mono',monospace}
+.app svg{width:36px;height:36px;display:block;border-radius:10px}
+body{background:radial-gradient(620px 320px at 85% -60px,rgba(255,59,87,.22),transparent 70%),radial-gradient(520px 320px at -10% 18%,rgba(255,150,60,.12),transparent 70%),var(--bg);background-repeat:no-repeat}
+.logo::before{content:"";display:inline-block;width:11px;height:11px;border-radius:3px;background:linear-gradient(135deg,#ff3b57,#ff9a3d);margin-right:8px}
+.box,details{border-radius:16px}
+.btn{border-radius:12px}
+.btn.red{background:linear-gradient(135deg,#ff3b57,#ff7a3d);border:0;color:#fff;box-shadow:0 8px 24px rgba(255,59,87,.35)}
+.tab,.chip{border-radius:999px;border-color:var(--line)}
+.tab[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip[aria-pressed="true"]{background:linear-gradient(135deg,#ff3b57,#ff7a3d);border-color:transparent;color:#fff}
+.eyebrow{display:inline-block;font:700 12px 'Space Mono',monospace;color:var(--red);border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:999px;margin-top:14px}
+h1{margin-top:16px}
+h1 em{font-style:normal;background:linear-gradient(90deg,#ff3b57,#ff9a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.perks .box{padding:16px}
+.perks b{margin-bottom:2px}
+.gc{position:relative;overflow:hidden;height:112px;border-radius:14px;padding:14px;margin-bottom:14px;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.gc::after{content:"";position:absolute;right:-34px;top:-44px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.16)}
+.gc::before{content:"";position:absolute;right:40px;bottom:-60px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.1)}
+.gb{font:700 15px 'Space Mono',monospace;position:relative;z-index:1}
+.gv{font:700 28px 'Space Mono',monospace;position:relative;z-index:1}
+.item h3{font-size:18px}
+.steps i{width:34px;height:34px;border-radius:50%;background:rgba(255,59,87,.15);display:grid;place-items:center;flex:none}
+.cta{background:linear-gradient(135deg,#ff3b57,#ff7a3d);border:0;border-radius:20px;color:#fff}
+.ov{backdrop-filter:blur(6px)}
+.sheet{border-radius:22px 22px 0 0;border-bottom:0}
+.qr{border-radius:14px}
+.sheet a.app{border-radius:12px}
+.theme{border-radius:50%}
+.gc{height:158px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+.gt{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.gm{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.95);color:#111;display:grid;place-items:center;font:700 16px 'Space Grotesk',sans-serif}
+.gl{margin-left:auto;font:700 10px 'Space Mono',monospace;letter-spacing:1.5px;opacity:.85}
+.gbtm{display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:1}
+.gvl{display:block;font:400 10px 'Space Mono',monospace;letter-spacing:1.5px;opacity:.8;margin-bottom:2px}
+.gv{font-size:32px;line-height:1}
+.bar{width:70px;height:28px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.85) 0 2px,transparent 2px 4px,rgba(255,255,255,.85) 4px 5px,transparent 5px 8px);opacity:.7;border-radius:2px}
+.timer{text-align:center;font:700 13px 'Space Mono',monospace;color:var(--red);background:rgba(255,59,87,.12);border-radius:999px;padding:8px 12px;margin:-4px 0 12px}
+.offer{display:flex;justify-content:space-between;align-items:center;gap:10px;background:linear-gradient(135deg,#ff3b57,#ff7a3d);color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:6px;font-weight:700;font-size:14px}
+.offer[hidden]{display:none}
+.offer b{font:700 14px 'Space Mono',monospace;white-space:nowrap}
+.wrap{max-width:760px}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line);margin-left:8px}
+.nav{display:none;gap:22px;font-size:14px}
+.nav a{color:var(--mute);text-decoration:none}
+.nav a:hover{color:var(--fg)}
+@media(min-width:560px){.nav{display:flex}}
+h2{display:flex;align-items:center;gap:10px;font-size:28px}
+h2::before{content:"";width:6px;height:22px;border-radius:3px;background:linear-gradient(#ff3b57,#ff7a3d)}
+.cta h2::before{display:none}
+.paystrip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:26px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.paystrip span{font:700 12px 'Space Mono',monospace;color:var(--mute);letter-spacing:.5px}
+.paystrip .lg{display:flex;gap:10px;margin-left:auto}
+.paystrip svg{width:34px;height:34px;border-radius:9px;display:block}
+.ft{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;display:grid;gap:22px;grid-template-columns:1fr;font-size:14px}
+@media(min-width:560px){.ft{grid-template-columns:2fr 1fr 1fr}}
+.ft a{display:block;color:var(--mute);text-decoration:none;margin-top:8px}
+.ft a:hover{color:var(--fg)}
+.ft b{color:var(--fg)}
+.ft p{margin:8px 0 0;color:var(--mute)}
+.ft .copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;font-size:12px}
+.wa-float{position:fixed;right:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;border-radius:999px;padding:13px;text-decoration:none;font:700 14px 'Space Mono',monospace;box-shadow:0 8px 24px rgba(37,211,102,.45)}
+.wa-float svg{width:28px;height:28px;display:block;flex:none}
+.wa-float:hover{transform:translateY(-2px)}
+.old{color:var(--mute);font:400 14px 'Space Mono',monospace;margin-left:4px}
+.off{font:700 11px 'Space Mono',monospace;color:#fff;background:linear-gradient(135deg,#ff3b57,#ff7a3d);padding:3px 8px;border-radius:999px;margin-left:6px;white-space:nowrap}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--bg)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.eyebrow,h1,.sub{animation:up .6s both}
+h1{animation-delay:.08s}.sub{animation-delay:.16s}
+.btn{transition:transform .15s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.item,.perks .box{transition:transform .2s,border-color .2s}
+.item:hover,.perks .box:hover{transform:translateY(-3px);border-color:var(--red)}
+.stack{position:relative;height:160px;margin-top:34px}
+.sc{position:absolute;width:190px;height:122px;border-radius:16px;padding:14px;color:#fff;font:700 14px 'Space Mono',monospace;box-shadow:0 14px 34px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .3s}
+.sc::after{content:"CARD";position:absolute;right:12px;bottom:10px;font-size:10px;letter-spacing:1.5px;opacity:.85}
+.s1{left:0;top:22px;transform:rotate(-8deg);background:linear-gradient(135deg,#ff9900,#e65c00)}
+.s2{left:60px;top:8px;transform:rotate(-2deg);background:linear-gradient(135deg,#1db954,#0b6b30)}
+.s3{left:120px;top:18px;transform:rotate(6deg);background:linear-gradient(135deg,#e50914,#7a0a10)}
+.stack:hover .s1{transform:rotate(-12deg) translateX(-6px)}
+.stack:hover .s3{transform:rotate(10deg) translateX(6px)}
+@media(min-width:560px){.sc{width:230px;height:140px}.s2{left:110px}.s3{left:220px}.stack{height:180px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.search{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--fg);font:400 15px 'Space Grotesk',sans-serif;margin-bottom:12px}
+.search:focus{outline:2px solid var(--red);outline-offset:1px}
+.empty{color:var(--mute);text-align:center;padding:24px 0}
+.sum{display:flex;gap:12px;align-items:center;margin:4px 0 16px;padding-right:44px}
+.mini{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;color:#fff;font:700 20px 'Space Grotesk',sans-serif;flex:none;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.sv{display:block;font:400 12px 'Space Mono',monospace;color:var(--mute);margin-top:2px}
+.lbl{text-align:center;font:700 11px 'Space Mono',monospace;color:var(--mute);letter-spacing:1.5px}
+.mstep{list-style:none;display:flex;gap:6px;padding:0;margin:0 0 14px}
+.mstep li{flex:1;text-align:center;font-size:11px;color:var(--mute);border-top:3px solid var(--line);padding-top:6px}
+.mstep li:first-child{border-color:var(--red);color:var(--fg)}
+.sub2{color:var(--mute);margin:-6px 0 16px}
+.marq{overflow:hidden;margin-top:18px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mt{display:flex;gap:10px;width:max-content;padding-right:10px;animation:mq 30s linear infinite}
+.mt span{padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--card);font:700 13px 'Space Mono',monospace;color:var(--mute);white-space:nowrap}
+@keyframes mq{to{transform:translateX(-50%)}}
+body{background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/44px 44px,radial-gradient(620px 340px at 85% -60px,rgba(255,59,87,.26),transparent 70%),radial-gradient(520px 340px at -10% 18%,rgba(255,150,60,.13),transparent 70%),var(--bg)}
+h1,h2,.sheet .amt{font-family:'Sora','Space Grotesk',sans-serif}
+h1{font-size:clamp(38px,10vw,66px);line-height:1.02;letter-spacing:-2px;font-weight:800;margin-bottom:16px}
+h2{font-size:26px;font-weight:700;margin-top:56px}
+.logo{font-size:24px}
+.sub{font-size:17px;line-height:1.6}
+.btn{padding:14px 24px;border-radius:14px}
+.item{padding:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 60%),var(--card);border-radius:20px}
+.gc{height:170px;border-radius:18px;padding:18px}
+.gv{font-size:36px}
+.item h3{font-size:19px}
+.price{font-size:24px}
+.chip{padding:9px 15px}
+.item .row .btn{background:linear-gradient(135deg,#ff3b57,#ff7a3d);border:0;color:#fff;box-shadow:0 6px 18px rgba(255,59,87,.3)}
+.perks .box{padding:18px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent),var(--card)}
+.perks b{font-size:16px;margin-bottom:4px}
+.steps li{padding:18px;border-radius:18px}
+.cta{padding:34px 24px;text-align:center;border-radius:24px;box-shadow:0 20px 50px rgba(255,59,87,.3)}
+.cta h2{justify-content:center;font-size:30px;margin-top:0}
+.cta .btn{padding:15px 28px}
+.sheet{background:linear-gradient(180deg,rgba(255,59,87,.1),transparent 160px),var(--bg)}
+.sheet .amt{font-size:42px;font-weight:800}
+.search{padding:15px 18px}
+.ft{margin-top:40px}
+.low{display:inline-block;font:700 12px 'Space Mono',monospace;color:#fff;background:#e11d48;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.stk{margin:0 0 14px}
+.stl{display:flex;justify-content:space-between;font:700 11px 'Space Mono',monospace;color:var(--mute);letter-spacing:1px;margin-bottom:6px}
+.stl b{color:var(--fg)}
+.stb{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.stb i{display:block;height:100%;border-radius:999px;transition:width .6s}
+.proof{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:8px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);text-decoration:none}
+.proof[hidden]{display:none}
+.proof .ic{width:34px;height:34px;border-radius:50%;background:#22c55e;color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.proof b{display:block;font-size:14px}
+.proof small{color:var(--mute);font-size:12px}
+.proof .ar{margin-left:auto;color:var(--red);font-weight:700}
+.proof{padding:14px 16px;border:1px solid transparent;border-radius:16px;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,#22c55e,#ff7a3d) border-box;box-shadow:0 8px 24px rgba(34,197,94,.15);transition:transform .15s}
+.proof:hover{transform:translateY(-2px)}
+.proof .ic{width:42px;height:42px;background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.proof b{font-size:15px}
+.proof .ar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#ff3b57,#ff7a3d);color:#fff;display:grid;place-items:center;flex:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@keyframes sheen{from{transform:translateX(-120%)}to{transform:translateX(280%)}}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+.proof{position:relative;overflow:hidden}
+.proof::after{content:"";position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.14),transparent);animation:sheen 3.2s ease-in-out infinite;pointer-events:none}
+.proof .ic{animation:pulse 2s infinite}
+.proof .ar{animation:nudge 1.4s ease-in-out infinite}
+.gc{height:auto;min-height:168px;aspect-ratio:1.75/1;border-radius:18px;transition:transform .35s;box-shadow:0 14px 34px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.18)}
+.gc::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;width:auto;height:auto;border-radius:inherit;background:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 2px,transparent 2px 14px)}
+.gc::after{right:-50px;top:-70px;width:190px;height:190px;background:radial-gradient(circle,rgba(255,255,255,.28),rgba(255,255,255,0) 70%)}
+.gr{position:absolute;top:0;bottom:0;right:96px;width:18px;background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.3),rgba(255,255,255,.1))}
+.gr::before{content:"";position:absolute;top:-9px;left:50%;width:34px;height:22px;transform:translateX(-50%);border-radius:50%;background:rgba(255,255,255,.35)}
+.gs{position:absolute;top:0;left:0;right:0;bottom:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.32) 45%,transparent 60%);background-size:260% 100%;background-position:130% 0;transition:background-position .9s}
+.item:hover .gs{background-position:-30% 0}
+.item:hover .gc{transform:perspective(700px) rotateX(3deg) rotateY(-4deg) translateY(-2px)}
+.gl{border:1px solid rgba(255,255,255,.55);padding:3px 9px;border-radius:999px;font-size:9px}
+.gv{text-shadow:0 2px 12px rgba(0,0,0,.28)}
+.sc::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;border-radius:inherit;background:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 2px,transparent 2px 14px)}
+.gc{box-shadow:0 18px 40px rgba(0,0,0,.5),inset 0 0 0 1px rgba(212,175,55,.6),inset 0 1px 0 rgba(255,255,255,.3)}
+.gc::before{background:linear-gradient(135deg,rgba(0,0,0,.5),rgba(0,0,0,.82)),repeating-linear-gradient(135deg,rgba(212,175,55,.08) 0 1px,transparent 1px 10px)}
+.gc::after{right:-70px;top:-70px;width:250px;height:250px;border-radius:50%;background:repeating-radial-gradient(circle,rgba(212,175,55,.26) 0 1px,transparent 1px 7px)}
+.gr{top:8px;bottom:8px;left:8px;right:8px;width:auto;background:none;border:1px solid rgba(212,175,55,.35);border-radius:12px}
+.gr::before{display:none}
+.gb{color:#f3d98b;letter-spacing:1.8px;text-transform:uppercase;font-size:13px}
+.gm{background:linear-gradient(135deg,#f7e29b,#c99a2e);color:#3b2a05}
+.gl{border-color:rgba(243,217,139,.6);color:#f3d98b}
+.gvl{color:#d9bd6a}
+.gv{background:linear-gradient(180deg,#fff3c0,#e0b84a 55%,#a97c1a);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+.bar{width:44px;height:44px;border-radius:50%;background:conic-gradient(from 0deg,#ff6ec4,#7873f5,#4ade80,#facc15,#ff6ec4);opacity:.92;box-shadow:inset 0 0 0 4px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.35)}
+.sc{color:#f3d98b;box-shadow:0 14px 34px rgba(0,0,0,.45),inset 0 0 0 1px rgba(212,175,55,.6),inset 0 1px 0 rgba(255,255,255,.3)}
+.sc::before{background:linear-gradient(135deg,rgba(0,0,0,.5),rgba(0,0,0,.8)),repeating-linear-gradient(135deg,rgba(212,175,55,.08) 0 1px,transparent 1px 10px)}
+.sc::after{color:#f3d98b}
+.gc{box-shadow:0 16px 36px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.18)}
+.gc::before{background:linear-gradient(145deg,rgba(10,10,14,.7),rgba(10,10,14,.93))}
+.gc::after{right:-60px;top:-90px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 65%)}
+.gr{display:none}
+.gb{color:#ece7da;font-weight:500;letter-spacing:3px;text-transform:uppercase;font-size:12px}
+.gm{background:transparent;border:1px solid rgba(212,175,55,.75);color:#d4af37;width:30px;height:30px;font-size:14px}
+.gl{border:1px solid rgba(212,175,55,.5);color:#d4af37;letter-spacing:2px}
+.gvl{color:#b9a36a;letter-spacing:2.5px}
+.gv{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#f6f2e8;-webkit-text-fill-color:#f6f2e8;filter:none;font-weight:400;font-size:34px;letter-spacing:-1px}
+.bar{width:64px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(212,175,55,0),#d4af37);box-shadow:none;opacity:1}
+.sc{color:#ece7da;box-shadow:0 14px 34px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.1),inset 0 1px 0 rgba(255,255,255,.18)}
+.sc::before{background:linear-gradient(145deg,rgba(10,10,14,.7),rgba(10,10,14,.93))}
+.sc::after{color:#d4af37}
+.gc{filter:saturate(1.3);box-shadow:0 18px 40px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.14),inset 0 1px 0 rgba(255,255,255,.35)}
+.gc::before{background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(0,0,0,.35)),repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 1px,transparent 1px 12px)}
+.gc::after{background:radial-gradient(circle,rgba(255,255,255,.34),rgba(255,255,255,0) 68%)}
+.gb{color:#fff}
+.gv{color:#fff;-webkit-text-fill-color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.3)}
+.gvl{color:rgba(255,255,255,.8)}
+.gm{border-color:#fff;color:#fff}
+.gl{border-color:rgba(255,255,255,.7);color:#fff}
+.bar{background:linear-gradient(90deg,rgba(255,255,255,0),#fff)}
+.sc{filter:saturate(1.3)}
+.sc::before{background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(0,0,0,.35)),repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 1px,transparent 1px 12px)}
+.sc,.sc::after{color:#fff}
+.gw{position:absolute;right:10px;bottom:-34px;font:800 170px/1 'Sora','Space Grotesk',sans-serif;color:rgba(255,255,255,.15);pointer-events:none;z-index:0}
+.gc::before{background:radial-gradient(circle at 8% 115%,rgba(255,255,255,.3),transparent 50%),linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.35)),repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 1px,transparent 1px 12px)}
+.gbtm{background:rgba(255,255,255,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.26);border-radius:12px;padding:8px 14px;margin:0 -6px -6px;align-items:center}
+.gv{font-size:30px}
+.gc{border-radius:20px;box-shadow:0 22px 44px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.18),inset 0 1px 0 rgba(255,255,255,.45)}
+@keyframes f1{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(-8deg) translateY(-7px)}}
+@keyframes f2{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-10px)}}
+@keyframes f3{0%,100%{transform:rotate(6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-6px)}}
+.s1{animation:f1 5s ease-in-out infinite}
+.s2{animation:f2 6s ease-in-out infinite}
+.s3{animation:f3 5.5s ease-in-out infinite}
+.pbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;height:44px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 14px;background:linear-gradient(90deg,#15803d,#22c55e);color:#fff;text-decoration:none;font:700 14px 'Space Grotesk',sans-serif;overflow:hidden;box-shadow:0 6px 20px rgba(34,197,94,.35)}
+.pbar svg{width:22px;height:22px;flex:none}
+.pbar .jn{background:#fff;color:#15803d;border-radius:999px;padding:4px 12px;font:700 12px 'Space Mono',monospace;animation:nudge 1.4s ease-in-out infinite}
+.pbar::after{content:"";position:absolute;top:0;left:0;width:30%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);animation:sheen 2.8s ease-in-out infinite;pointer-events:none}
+header{top:calc(env(safe-area-inset-top,0px) + 44px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px)}
+#proof{display:none!important}
+header{top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+.pbar{position:relative;top:auto;height:56px;justify-content:flex-start;gap:12px;padding:0 16px;background:linear-gradient(90deg,#06110b,#0d2216 55%,#06110b);box-shadow:none;border-bottom:1px solid rgba(34,197,94,.4)}
+.pbar::after{background:linear-gradient(100deg,transparent,rgba(34,197,94,.2),transparent)}
+.pbar svg{width:36px;height:36px;padding:8px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);box-shadow:0 0 0 0 rgba(34,197,94,.5);animation:pulse 2s infinite}
+.pbar>span:first-of-type{flex:1;font:700 15px 'Space Grotesk',sans-serif;color:#f4f1ee;line-height:1.2}
+.pbar>span:first-of-type::after{content:"WhatsApp channel · tap karke dekho";display:block;font:400 11px 'Space Grotesk',sans-serif;color:#8fc7a4;margin-top:2px}
+.pbar .jn{background:transparent;color:#4ade80;border:1px solid #22c55e;box-shadow:0 0 14px rgba(34,197,94,.45);animation:none;padding:6px 14px}
+.logo::before{display:none}
+.logo{color:var(--fg);font-size:22px;letter-spacing:-.5px;background:none;text-shadow:none;animation:none}
+.pbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40}
+header{position:static;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+.logo{color:var(--red)}
+.logo::before{display:inline-block}
+</style>
+</head>
+<body>
+<a class="pbar" href="https://whatsapp.com/channel/0029Vb97VUyBqbr2hR7t1v3I" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 00-8.5 15l-1.4 5 5.1-1.3A9.9 9.9 0 1012.04 2zm5.8 14.1c-.25.7-1.4 1.3-1.9 1.35-.5.05-1.1.2-3.6-.8-3-1.2-4.9-4.3-5.05-4.5-.15-.2-1.2-1.6-1.2-3s.75-2.1 1-2.4c.25-.3.55-.35.75-.35h.55c.2 0 .4 0 .6.45.2.5.7 1.7.75 1.85.05.1.1.3 0 .5-.1.2-.15.3-.3.5l-.45.5c-.15.15-.3.3-.15.6.15.3.7 1.2 1.55 1.9 1.05.95 1.95 1.25 2.25 1.4.3.15.45.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.25.65-.15l1.7.8c.3.15.5.2.55.3.05.15.05.7-.2 1.4z"/></svg><span>Proof channel dekho</span><span class="jn">DEKHO →</span></a>
+<div class="wrap">
+<header>
+  <div class="logo">GIFTVAULT</div>
+  <nav class="nav"><a href="#cards">Cards</a><a href="#how">Kaise kaam karta hai</a><a href="#faq">FAQ</a></nav>
+  <button class="theme" id="theme" aria-label="Theme badlein">◐</button>
+</header>
+
+<section>
+  <a class="proof" id="proof" href="#" target="_blank" rel="noopener" hidden><span class="ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>Proof channel dekho</b><small>Tap karo aur khud dekh lo</small></div><span class="ar">→</span></a>
+  <div class="offer" id="offer" hidden><span id="offer-text"></span><b id="offer-t"></b></div>
+  <div class="eyebrow">● Digital cards</div>
+  <h1>Cards, <em>seedha</em> aapke phone pe.</h1>
+  <p class="sub">Amazon, Google Play, Steam aur aur bhi. Card chuno, UPI se pay karo, code pao.</p>
+  <a class="btn red" href="#cards">Cards dekho</a><a class="btn ghost" href="#how">Kaise kaam karta hai</a>
+  <div class="stack" aria-hidden="true"><div class="sc s1">AMAZON</div><div class="sc s2">SPOTIFY</div><div class="sc s3">NETFLIX</div></div>
+</section>
+
+<section class="paystrip"><span>UPI SE PAY KAREIN</span><div class="lg"><svg viewBox="0 0 40 40" aria-label="PhonePe"><rect width="40" height="40" rx="10" fill="#5f259f"/><path fill-rule="evenodd" fill="#fff" d="M14 11h9a6 6 0 010 12h-5v6h-4zM18 15v4h5a2 2 0 000-4z"/></svg><svg viewBox="0 0 40 40" aria-label="GPay"><rect width="40" height="40" rx="10" fill="#fff"/><text x="20" y="26" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#4285f4">G</text><circle cx="14" cy="33" r="2.2" fill="#ea4335"/><circle cx="20" cy="33" r="2.2" fill="#fbbc05"/><circle cx="26" cy="33" r="2.2" fill="#34a853"/></svg><svg viewBox="0 0 40 40" aria-label="Paytm"><rect width="40" height="40" rx="10" fill="#fff"/><text x="20" y="24" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="10.5"><tspan fill="#002e6e">pay</tspan><tspan fill="#00baf2">tm</tspan></text></svg><svg viewBox="0 0 40 40" aria-label="BHIM"><rect width="40" height="40" rx="10" fill="#fff"/><path d="M20 8l12 22h-9z" fill="#f58220"/><path d="M20 8L8 30h9z" fill="#138808"/></svg></div></section>
+
+<div class="marq" aria-hidden="true"><div class="mt"><span>Amazon</span><span>Google Play</span><span>Steam</span><span>Netflix</span><span>Flipkart</span><span>Apple</span><span>Spotify</span><span>Zomato</span><span>PlayStation</span><span>Xbox</span><span>Amazon</span><span>Google Play</span><span>Steam</span><span>Netflix</span><span>Flipkart</span><span>Apple</span><span>Spotify</span><span>Zomato</span><span>PlayStation</span><span>Xbox</span></div></div>
+
+<section class="perks">
+  <div class="box"><b>⚡ Fast delivery</b><span>Payment confirm hote hi code bheja jata hai</span></div>
+  <div class="box"><b>🔒 Genuine codes</b><span>Authorized sources se liye gaye cards</span></div>
+  <div class="box"><b>🧾 Easy order</b><span>Koi signup nahi, bas UPI se pay karo</span></div>
+  <div class="box"><b>💬 Support</b><span>Koi dikkat ho to seedha humse baat karein</span></div>
+</section>
+
+<section id="cards">
+  <h2>Cards</h2>
+  <p class="sub2">Brand chuno, amount select karo. Jitna bada card, utna zyada discount.</p>
+  <input class="search" id="q" type="search" placeholder="Card dhoondhein (Amazon, Steam...)" aria-label="Card dhoondhein">
+  <div class="tabs" id="tabs"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section>
+  <h2 id="how">Order kaise karein</h2>
+  <ol class="steps">
+    <li class="box"><i>1</i><div><b>Card aur amount chuno</b><br><span style="color:var(--mute)">Upar se brand aur denomination select karein.</span></div></li>
+    <li class="box"><i>2</i><div><b>UPI se payment karo</b><br><span style="color:var(--mute)">QR scan karo ya apne UPI app se pay karo.</span></div></li>
+    <li class="box"><i>3</i><div><b>Payment ke baad code pao</b><br><span style="color:var(--mute)">Payment confirm hone ke baad aapko code mil jata hai.</span></div></li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="faq">Aam sawal</h2>
+  <details><summary>Card redeem kaise karein?</summary><p>Brand ki official app ya website kholein, wahan "Redeem card" ya "Add card" option mein code daalein.</p></details>
+  <details><summary>Code kitni der mein milta hai?</summary><p>Payment confirm hone ke baad, aam taur par kuch minutes mein.</p></details>
+  <details><summary>Payment kaise karna hai?</summary><p>Order ke baad hum UPI ya jo bhi payment option available hai, uski detail WhatsApp pe bhejenge.</p></details>
+  <details><summary>Agar code kaam na kare to?</summary><p>Turant humein WhatsApp karein aur order ki detail bhejein, hum check karke madad karenge.</p></details>
+  <details><summary>Kya refund milta hai?</summary><p>Redeem kiye gaye codes ka refund nahi hota. Galat ya invalid code par replacement ya refund diya jayega.</p></details>
+</section>
+
+<section class="box cta">
+  <h2>Abhi order karein</h2>
+  <p style="margin:0 0 16px">Kaunsa card chahiye, bas bata do.</p>
+  <a class="btn" id="cta" href="#">WhatsApp pe baat karein</a>
+</section>
+
+<footer class="ft"><div><div class="logo">GIFTVAULT</div><p>Digital cards, UPI se easy payment.</p></div><div><b>Links</b><a href="#cards">Cards</a><a href="#how">Order kaise karein</a><a href="#faq">FAQ</a></div><div><b>Support</b><a id="ft-wa" href="#" target="_blank" rel="noopener">WhatsApp support</a></div><p class="copy">© GiftVault. Saare brand names apne-apne maalikon ke hain. Hum kisi brand ke official partner hone ka claim nahi karte jab tak likha na ho.</p></footer>
+</div>
+
+<a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp pe chat karein"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 00-8.5 15l-1.4 5 5.1-1.3A9.9 9.9 0 1012.04 2zm5.8 14.1c-.25.7-1.4 1.3-1.9 1.35-.5.05-1.1.2-3.6-.8-3-1.2-4.9-4.3-5.05-4.5-.15-.2-1.2-1.6-1.2-3s.75-2.1 1-2.4c.25-.3.55-.35.75-.35h.55c.2 0 .4 0 .6.45.2.5.7 1.7.75 1.85.05.1.1.3 0 .5-.1.2-.15.3-.3.5l-.45.5c-.15.15-.3.3-.15.6.15.3.7 1.2 1.55 1.9 1.05.95 1.95 1.25 2.25 1.4.3.15.45.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.25.65-.15l1.7.8c.3.15.5.2.55.3.05.15.05.7-.2 1.4z"/></svg></a>
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ck-title">
+  <div class="sheet">
+    <button class="x" id="ck-x" aria-label="Band karein">×</button>
+    <div class="sum"><div class="mini" id="ck-mini"></div><div><h3 id="ck-title"></h3><span class="sv" id="ck-sub"></span></div></div>
+    <div class="lbl">AAPKO DENA HAI</div>
+    <p class="amt" id="ck-amt"></p>
+    <div class="timer" id="ck-timer"></div>
+    <ol class="mstep"><li>Scan ya app kholein</li><li>Payment karein</li><li>Code pao</li></ol>
+    <div class="box oid"><div><small>ORDER ID</small><span id="ck-oid"></span></div></div>
+    <div class="qr" id="ck-qr"></div>
+    <a class="btn red" id="ck-upi" href="#">Koi bhi UPI app kholein</a>
+    <div class="sep">ya app chunein</div>
+    <div class="apps">
+      <a class="app" id="ap-phonepe" href="#"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#5f259f"/><path fill-rule="evenodd" fill="#fff" d="M14 11h9a6 6 0 010 12h-5v6h-4zM18 15v4h5a2 2 0 000-4z"/></svg>PhonePe</a>
+      <a class="app" id="ap-gpay" href="#"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#fff"/><text x="20" y="26" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="22" fill="#4285f4">G</text><circle cx="14" cy="33" r="2.2" fill="#ea4335"/><circle cx="20" cy="33" r="2.2" fill="#fbbc05"/><circle cx="26" cy="33" r="2.2" fill="#34a853"/></svg>GPay</a>
+      <a class="app" id="ap-paytm" href="#"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#fff"/><text x="20" y="24" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="10.5"><tspan fill="#002e6e">pay</tspan><tspan fill="#00baf2">tm</tspan></text></svg>Paytm</a>
+      <a class="app" id="ap-bhim" href="#"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#fff"/><path d="M20 8l12 22h-9z" fill="#f58220"/><path d="M20 8L8 30h9z" fill="#138808"/></svg>BHIM</a>
+    </div>
+    <a class="btn" id="ck-link" href="#" target="_blank" rel="noopener" style="display:none">Card / Netbanking se pay karein</a>
+    <div class="box upi"><span id="ck-id"></span><button class="chip" id="ck-copy" type="button">Copy</button></div>
+    <p class="note">Payment ke baad aapko code bheja jayega.</p>
+  </div>
+</div>
+
+<script>
+// ---- Yahan apni details badlein ----
+var WHATSAPP = "919459366344"; // country code ke saath, bina + ke
+var UPI_ID = "ng0humanity101@okicici";   // apna asli UPI ID
+var UPI_NAME = "GiftVault";    // payee ka naam
+var PAYMENT_LINK = "";         // optional: Razorpay/Cashfree payment link, khali chhodo to button chhupa rahega
+var CARDS = [
+  // ===== NAYE CARD KE SLOTS (abhi chhupe hain) =====
+  // Bharne ke liye: brand, name, amounts badlo aur hide:true hata do.
+  // color = card ka gradient (optional). soon:true = "Jaldi aa raha hai" dikhega, Buy band rahega.
+  {hide:true, brand:"Brand 1", name:"Brand 1 Card", amounts:[500,1000], note:"Category", color:"linear-gradient(135deg,#6a11cb,#2575fc)"},
+  {hide:true, brand:"Brand 2", name:"Brand 2 Card", amounts:[500,1000], note:"Category", color:"linear-gradient(135deg,#f12711,#f5af19)"},
+  {hide:true, brand:"Brand 3", name:"Brand 3 Card", amounts:[500,1000], note:"Category", color:"linear-gradient(135deg,#11998e,#38ef7d)"},
+  // ===== SLOTS END =====
+  {brand:"Amazon", name:"Amazon Pay Card", amounts:[100,500,1000,2000], note:"Shopping"},
+  {brand:"Google Play", name:"Google Play Recharge Code", amounts:[100,300,500,1000], note:"Apps & games"},
+  {brand:"Steam", name:"Steam Wallet Code", amounts:[500,1000,2000], note:"PC games"},
+  {brand:"Netflix", name:"Netflix Card", amounts:[500,1000,1500], note:"Streaming"},
+  {brand:"Flipkart", name:"Flipkart Card", amounts:[250,500,1000,2000], note:"Shopping"},
+  {brand:"Apple", name:"Apple Card", amounts:[500,1000,2000,5000], note:"Apps & services"},
+  {brand:"Spotify", name:"Spotify Card", amounts:[200,500,1000], note:"Music"},
+  {brand:"Zomato", name:"Zomato Card", amounts:[250,500,1000], note:"Food"},
+  {brand:"PlayStation", name:"PlayStation Store Card", amounts:[500,1000,2000], note:"Console games"},
+  {brand:"Xbox", name:"Xbox Card", amounts:[500,1000,2000], note:"Console games"}
+];
+// Price = amount (apna margin chahiye to PRICE_FN badlein)
+// Discount slabs: amount jitna bada, discount utna zyada. min = kam se kam amount, off = discount %
+// Sirf chhoti se badi order mein likho. Discount nahi dena to list khali ([]) kar do.
+var TIERS = [{min:500, off:5}, {min:1000, off:10}];
+function disc(a){var d = 0; TIERS.forEach(function(t){if (a >= t.min) d = t.off;}); return d;}
+function PRICE_FN(a){return Math.round(a*(1-disc(a)/100));}
+// -------------------------------------
+
+// Offer timer: sirf tab dikhega jab aapka offer sach mein is date tak chal raha ho
+var OFFER_TEXT = "Limited-time offer";
+var OFFER_END = "2026-11-30T23:59:00+05:30"; // jaise "2026-11-30T23:59:00+05:30". Khali = banner nahi dikhega
+var PAY_MINUTES = 10; // checkout mein payment ke liye time
+var PROOF_URL = "https://whatsapp.com/channel/0029Vb97VUyBqbr2hR7t1v3I"; // apne proof channel ka link (Telegram / Instagram / WhatsApp), khali = nahi dikhega
+var MIN_AMOUNT = 500; // isse kam amount kisi card par nahi dikhega
+CARDS.forEach(function(c){ c.amounts = c.amounts.filter(function(a){return a >= MIN_AMOUNT;}); if (!c.amounts.length) c.hide = true; });
+var state = {tab:"All", pick:{}, q:""};
+var STOCK_MAX = 100; // itne stock par bar poora bharega
+function meter(s){
+  var p = Math.max(4, Math.min(100, Math.round(s/STOCK_MAX*100)));
+  var col = s <= 5 ? '#e11d48' : (p < 35 ? '#f59e0b' : '#22c55e');
+  return '<div class="stk"><div class="stl"><span>STOCK</span><b>'+(s>0 ? s+' available' : 'Khatam')+'</b></div><div class="stb"><i style="width:'+p+'%;background:'+col+'"></i></div></div>';
+}
+function match(c){return !c.hide && (state.tab==="All"||c.brand===state.tab) && (!state.q || (c.name+" "+c.brand).toLowerCase().indexOf(state.q)>-1);}
+var tabsEl = document.getElementById("tabs"), grid = document.getElementById("grid");
+function wa(text){return "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(text);}
+function renderTabs(){
+  var names = ["All"].concat(CARDS.filter(function(c){return !c.hide;}).map(function(c){return c.brand;}));
+  tabsEl.innerHTML = "";
+  names.forEach(function(n){
+    var b = document.createElement("button");
+    b.className = "tab"; b.textContent = n;
+    b.setAttribute("aria-pressed", state.tab===n);
+    b.onclick = function(){state.tab = n; renderTabs(); renderGrid();};
+    tabsEl.appendChild(b);
+  });
+}
+function renderGrid(){
+  grid.innerHTML = "";
+  if (!CARDS.some(match)) grid.innerHTML = '<p class="empty">Koi card nahi mila. WhatsApp pe poochh sakte hain.</p>';
+  CARDS.filter(match).forEach(function(c){
+    var sel = state.pick[c.brand] || c.amounts[0];
+    var GRAD = {"Amazon":"linear-gradient(135deg,#ff9900,#e65c00)","Google Play":"linear-gradient(135deg,#00c853,#0091ea)","Steam":"linear-gradient(135deg,#2a9df4,#0b3d73)","Netflix":"linear-gradient(135deg,#e50914,#7a0a10)","Flipkart":"linear-gradient(135deg,#2874f0,#1a4fb5)","Apple":"linear-gradient(135deg,#a1a1aa,#3f3f46)","Spotify":"linear-gradient(135deg,#1db954,#0b6b30)","Zomato":"linear-gradient(135deg,#e23744,#a3101c)","PlayStation":"linear-gradient(135deg,#0070d1,#003791)","Xbox":"linear-gradient(135deg,#107c10,#0b4d0b)"};
+    var g = c.color || GRAD[c.brand] || "linear-gradient(135deg,#444,#888)";
+    var d = document.createElement("div"); d.className = "box item";
+    d.innerHTML = '<div class="gc" style="background:'+g+'"><span class="gw">'+c.brand.charAt(0)+'</span><span class="gr"></span><span class="gs"></span><div class="gt"><span class="gm">'+c.brand.charAt(0)+'</span><span class="gb">'+c.brand+'</span><span class="gl">CARD</span></div><div class="gbtm"><div><span class="gvl">VALUE</span><span class="gv">₹'+sel+'</span></div><span class="bar"></span></div></div><div class="top"><h3>'+c.name+'</h3><span class="tag">'+c.note+'</span></div>'+(c.stock!==undefined && c.stock<=5 ? '<span class="low">'+(c.stock>0 ? 'Sirf '+c.stock+' bache hain' : 'Stock khatam')+'</span>' : '')+(c.stock!==undefined ? meter(c.stock) : '');
+    var chips = document.createElement("div"); chips.className = "chips";
+    c.amounts.forEach(function(a){
+      var ch = document.createElement("button"); ch.className = "chip";
+      ch.textContent = "₹"+a+(disc(a) ? " · "+disc(a)+"%" : ""); ch.setAttribute("aria-pressed", a===sel);
+      ch.onclick = function(){state.pick[c.brand] = a; renderGrid();};
+      chips.appendChild(ch);
+    });
+    var row = document.createElement("div"); row.className = "row";
+    var link = document.createElement("button"); link.className = "btn"; link.textContent = "Buy now";
+    link.type = "button";
+    if (c.soon || c.stock === 0) { link.textContent = c.soon ? "Jaldi aa raha hai" : "Stock khatam"; link.disabled = true; link.style.opacity = .5; link.style.cursor = "not-allowed"; } else link.onclick = function(){openCheckout(c, sel, g);};
+    row.innerHTML = '<div><span class="price">₹'+PRICE_FN(sel)+'</span>'+(disc(sel)?' <s class="old">₹'+sel+'</s> <span class="off">'+disc(sel)+'% OFF</span>':'')+'</div>';
+    row.appendChild(link);
+    d.appendChild(chips); d.appendChild(row); grid.appendChild(d);
+  });
+}
+var ov = document.getElementById("ov"), cur = null, tm = null;
+function startTimer(){
+  clearInterval(tm);
+  var end = Date.now() + PAY_MINUTES*60000, t = $("ck-timer"), ap = ov.querySelector(".apps");
+  $("ck-qr").style.opacity = 1; $("ck-upi").style.pointerEvents = "auto"; ap.style.pointerEvents = "auto"; ap.style.opacity = 1;
+  function tick(){
+    var s = Math.max(0, Math.round((end - Date.now())/1000));
+    if (s === 0) {
+      clearInterval(tm);
+      t.textContent = "Time khatam. Naya order shuru karein.";
+      $("ck-qr").style.opacity = .15; $("ck-upi").style.pointerEvents = "none"; ap.style.pointerEvents = "none"; ap.style.opacity = .3;
+      return;
+    }
+    t.textContent = "Payment ke liye time: " + String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0");
+  }
+  tick(); tm = setInterval(tick, 1000);
+}
+(function(){
+  var el = document.getElementById("offer"), end = OFFER_END ? new Date(OFFER_END).getTime() : NaN;
+  if (isNaN(end)) return;
+  document.getElementById("offer-text").textContent = OFFER_TEXT;
+  function tick(){
+    var s = Math.floor((end - Date.now())/1000);
+    if (s <= 0) { el.hidden = true; clearInterval(o); return; }
+    var d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60), x = s%60, p = function(n){return String(n).padStart(2,"0");};
+    document.getElementById("offer-t").textContent = (d ? d + "d " : "") + p(h) + ":" + p(m) + ":" + p(x);
+    el.hidden = false;
+  }
+  var o = setInterval(tick, 1000); tick();
+})();
+function $(i){return document.getElementById(i);}
+function openCheckout(c, a, g){
+  var amt = PRICE_FN(a); var oid = "GV" + Math.random().toString(16).slice(2,12).toUpperCase(); cur = {c:c, a:a, amt:amt, oid:oid}; $("ck-oid").textContent = oid;
+  $("ck-title").textContent = c.name; $("ck-sub").textContent = "Card value ₹" + a + (disc(a) ? " · " + disc(a) + "% off · Bachat ₹" + (a - amt) : ""); var mi = $("ck-mini"); mi.style.background = g; mi.textContent = c.brand.charAt(0);
+  $("ck-amt").textContent = "₹" + Number(amt).toFixed(2);
+  var url = "upi://pay?pa=" + encodeURIComponent(UPI_ID) + "&pn=" + encodeURIComponent(UPI_NAME) + "&am=" + amt + "&cu=INR&tn=" + encodeURIComponent(c.brand + " " + oid);
+  $("ck-upi").href = url;
+  var qs = url.slice("upi://pay?".length);
+  $("ap-phonepe").href = "phonepe://pay?" + qs;
+  $("ap-gpay").href = "tez://upi/pay?" + qs;
+  $("ap-paytm").href = "paytmmp://pay?" + qs;
+  $("ap-bhim").href = url;
+  $("ck-id").textContent = UPI_ID;
+  var pl = $("ck-link"); pl.style.display = PAYMENT_LINK ? "block" : "none"; if (PAYMENT_LINK) pl.href = PAYMENT_LINK;
+  var q = $("ck-qr"); q.innerHTML = "";
+  q.style.display = "";
+  function mkqr(){ try { new QRCode(q, {text:url, width:170, height:170}); } catch(e) { q.style.display = "none"; } }
+  if (window.QRCode) mkqr(); else { var sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; sc.onload = mkqr; sc.onerror = function(){q.style.display = "none";}; document.head.appendChild(sc); }
+  
+  ov.classList.add("on"); startTimer();
+}
+function closeCheckout(){ov.classList.remove("on"); clearInterval(tm);}
+$("ck-x").onclick = closeCheckout;
+ov.onclick = function(e){if (e.target === ov) closeCheckout();};
+document.addEventListener("keydown", function(e){if (e.key === "Escape") closeCheckout();});
+$("ck-copy").onclick = function(){
+  try { navigator.clipboard.writeText(UPI_ID); $("ck-copy").textContent = "Copied"; setTimeout(function(){$("ck-copy").textContent = "Copy";}, 1500); } catch(e) {}
+};
+var _unused = function(){
+  var utr = $("ck-utr").value.trim(), name = $("ck-name").value.trim();
+  if (!name) { $("ck-err").textContent = "Apna naam likhein."; return; }
+  if (!/^\d{12}$/.test(utr)) { $("ck-err").textContent = "UTR 12 digit ka hona chahiye."; return; }
+  var msg = "Order ID: " + cur.oid + "\nOrder: " + cur.c.name + " ₹" + cur.a + "\nPaid: ₹" + cur.amt + "\nUTR: " + utr + "\nNaam: " + name;
+  window.open(wa(msg), "_blank", "noopener");
+};
+document.getElementById("cta").href = wa("Hi, mujhe card order karna hai.");
+document.getElementById("ft-wa").href = wa("Hi, mujhe help chahiye.");
+document.getElementById("wa-float").href = wa("Hi, mujhe card ke baare mein poochna hai.");
+document.getElementById("q").oninput = function(){state.q = this.value.toLowerCase().trim(); renderGrid();};
+(function(){ var p = document.getElementById("proof"); if (!PROOF_URL) return; p.href = PROOF_URL; p.hidden = false; })();
+document.getElementById("theme").onclick = function(){ var r0 = document.documentElement; if (!r0.getAttribute("data-theme")) r0.setAttribute("data-theme", "dark");
+  var r = document.documentElement, dark = r.getAttribute("data-theme")==="dark" ||
+    (!r.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+  r.setAttribute("data-theme", dark ? "light" : "dark");
+};
+renderTabs(); renderGrid();
+</script>
+</body>
+</html>
